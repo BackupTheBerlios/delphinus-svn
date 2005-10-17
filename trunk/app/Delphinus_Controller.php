@@ -312,6 +312,27 @@ class Delphinus_Controller extends Ethna_Controller
         $this->logger->log(LOG_DEBUG, "default action path [%s]", $r);
         return $r;
     }
+    
+    /**
+     * getTemplateDir
+     *
+     */
+    function getTemplatedir()
+    {
+        $template = $this->getDirectory('template');
+        $Config = $this->getConfig();
+        $theme = $Config->get('theme');
+        
+        if ( !$theme ) {
+            $theme = 'default';
+        }
+        
+        if ( file_exists( "{$template}/{$theme}") ) {
+            $template .= "/{$theme}";
+        }
+
+        return $template;
+    }
 
 }
 ?>
