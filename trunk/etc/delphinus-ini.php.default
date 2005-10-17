@@ -5,9 +5,13 @@
  * update:
  */
 $config = array(
+    'dsn' => 'sqlite://dummy:dummy@localhost//home/user/delphinus.db',
     'title' => 'PHP Planet',
     'theme' => 'phpugjp',
     'debug' => false,
+    'author' => array('typekey_username'),
+    'typekey_token' => '',
+
     'log_facility'  => 'echo',
     'log_level' => 'warning',
     'log_option' => 'pid,function,pos',
