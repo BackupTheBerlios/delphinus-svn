@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="shortcut icon" href="{$base_url}/../theme/phpugjp/images/favicon.ico" />
-    <link rel="stylesheet" type="text/css" media="screen, tv, projection" href="{$base_url}/../theme/phpugjp/base.css" />
+    <link rel="stylesheet" type="text/css" media="screen, tv, projection" href="{$base_url}/../theme/phpugjp/phpugjp.css" />
         <title>{$title}</title>
     </head>
     <body>
