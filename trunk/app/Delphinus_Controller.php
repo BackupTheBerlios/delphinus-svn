@@ -258,6 +258,7 @@ class Delphinus_Controller extends Ethna_Controller
         $Config = $this->getConfig();
         $smarty->assign('title', $Config->get('title') );
         $smarty->assign('base_url', $Config->get('base_url') );
+        $smarty->assign('copyright', $Config->get('copyright') );
     }
     
     /**

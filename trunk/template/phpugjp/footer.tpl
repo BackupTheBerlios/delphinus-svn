@@ -1,5 +1,5 @@
         <div id="footer">
-        <address>Copyright&copy; Japan PHP Users Group</address>
+        <address>Copyright&copy; {$copyright}</address>
         </div>
     </body>
 </html>

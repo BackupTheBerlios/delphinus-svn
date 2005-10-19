@@ -11,6 +11,7 @@ $config = array(
     'debug' => false,
     'author' => array('typekey_username'),
     'typekey_token' => '',
+    'copyright' => 'halt',
 
     'log_facility'  => 'echo',
     'log_level' => 'warning',
