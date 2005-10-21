@@ -336,3 +336,32 @@ h3.comment{
 div#footer{
     clear:left;
 }
+
+div.auto_complete {
+  position: absolute;
+  background-color: #fff;
+  border:1px solid #888;
+  margin:0px;
+  padding:0px;
+  z-index:100;
+}
+
+ul.live_search  {
+  list-style-type: none;
+  margin:0px;
+  padding:0px;
+}
+
+// 候補メニュー中、フォーカスがあたっている候補を色反転する
+ul.live_search li.selected {
+  background-color: #B2BEFF;
+}
+
+ul.live_search li {
+  list-style-type: none;
+  display:block;
+  margin:0;
+  padding:2px;
+  height:45px;
+}
+

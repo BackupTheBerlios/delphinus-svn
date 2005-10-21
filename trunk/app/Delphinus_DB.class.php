@@ -78,10 +78,20 @@ class Delphinus_DB extends Haste_Creole
      * setRssList
      *
      */
-    function setRssList($rss_info)
+    function setRssList($rss_info, $id = false)
     {
-        try{
+        if ( is_numeric($id) ) {
+            $query = "UPDATE rss_list SET";
+            foreach( $rss_info as $key => $value) {
+                $query .= " {$key} = ? ,";
+            }
+            $query = substr($query, 0, -1);
+            $query.= " WHERE id = {$id}";
+        } else {
             $query = 'INSERT INTO rss_list (name,url,author) VALUES (?,?,?)';
+        }
+
+        try{
             $Statement = $this->db->prepareStatement($query);
 
             $vars = array_values($rss_info);
@@ -270,5 +280,6 @@ class Delphinus_DB extends Haste_Creole
         }
     }
     //}}}
+
 }
 ?>

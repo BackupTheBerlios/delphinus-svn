@@ -1,8 +1,8 @@
 {include file=header.tpl}
-<div>
+<div class="section">
 <ul>
 <li>{$app.rss.name}</li>
-<li>{$app.rss.url}</li>
+<li><a href="{$app.rss.url}">{$app.rss.url}</a></li>
 <li>{$app.rss.author}</li>
 </ul>
 </div>

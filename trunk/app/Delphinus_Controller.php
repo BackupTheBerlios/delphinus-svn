@@ -97,6 +97,7 @@ class Delphinus_Controller extends Ethna_Controller
         'template_c'    => 'tmp',
         'tmp'           => 'tmp',
         'view'          => 'app/view',
+        'bin'           => 'bin'
     );
 
     /**

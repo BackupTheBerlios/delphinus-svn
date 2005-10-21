@@ -41,7 +41,7 @@ class Delphinus_Form_Regist extends Ethna_ActionForm
             'type' => VAR_TYPE_STRING
         ),
         
-        'site_name' => array(
+        'name' => array(
             'name' => 'site name',
             'required' => true,
             'form_type' => FORM_TYPE_TEXT,
@@ -75,6 +75,13 @@ class Delphinus_Form_Regist extends Ethna_ActionForm
 class Delphinus_Action_Regist extends Ethna_AuthActionClass
 {
     /**
+     * Description of the Variable
+     * @var     object
+     * @access  protected
+     */
+    var $DB;
+
+    /**
      *  registアクションの前処理
      *
      *  @access public
@@ -82,7 +89,36 @@ class Delphinus_Action_Regist extends Ethna_AuthActionClass
      */
     function prepare()
     {
-        return null;
+        $this->DB = $this->backend->getDB();
+        $rss_list = $this->DB->getRssList();
+        $id = $this->getParameter();
+        
+        $this->af->setApp('rss_list', $rss_list);
+        
+        if ( is_numeric($id) && is_null($this->af->get('submit')) ) {
+            $record = $rss_list[$id];
+            unset($record['id']);
+            foreach( $record as $key => $value){
+                $this->af->set($key, $value);
+            }
+        }
+        
+        if ( is_null($this->af->get('submit')) ) {
+            
+            return 'regist';
+        
+        } else if ($this->af->validate() > 0) {
+            var_dump($this->af->getArray());
+            //error
+            return 'regist';
+        
+        } else {
+
+            return null;
+        
+       }
+
+        return 'regist';
     }
 
     /**
@@ -93,34 +129,34 @@ class Delphinus_Action_Regist extends Ethna_AuthActionClass
      */
     function perform()
     {
-        $DB = $this->backend->getDB();
+    
         $Config = $this->backend->getConfig();
-        $this->af->setApp('rss_list', $DB->getRssList());
+        $id = $this->getParameter();
         
-        if ( is_null($this->af->get('submit')) ) {
+        $rss_info = array(
+            'name' => $this->af->get('name'),
+            'url' => $this->af->get('url'),
+            'author' => $this->af->get('author')
+        );
+
+        $this->DB->setRssList($rss_info, $id);
             
-            return 'regist';
-        
-        } else if ($this->af->validate() > 0) {
-            
-            //error
-            return 'regist';
-        
+        header('Location: '.$Config->get('base_url').'/regist');
+        exit();
+ 
+    }
+
+    function getParameter()
+    {
+         $query = explode('/', $_SERVER['PATH_INFO']);
+        if ( is_numeric($query[2]) ) {
+            $id = $query[2];
         } else {
-        
-            $rss_info = array(
-                'name' => $this->af->get('site_name'),
-                'url' => $this->af->get('url'),
-                'author' => $this->af->get('author')
-            );
-            $DB->setRssList($rss_info);
-            
-            header('Location: '.$Config->get('base_url').'/regist');
-            exit();
-            
+            $id = false;
         }
 
-        return 'regist';
+        return $id;
+    
     }
 
 }

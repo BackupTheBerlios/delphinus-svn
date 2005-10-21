@@ -12,7 +12,7 @@
     <div id="header-topmain"><a href="{$base_url}"><img src="{$base_url}/../theme/phpugjp/images/top_logo.png" /></a></div>
         <div id="topmenu">
                 <a href="{$base_url}">Home</a>
-                <a href="{$base_url}/regist">Add Feed</a>
+                <a href="{$base_url}/admin">Admin</a>
                 {if $session.name}
                 <a href="{$base_url}/logout">Logout</a>
                 {$session.name}
