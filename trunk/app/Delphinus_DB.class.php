@@ -7,7 +7,7 @@
  *  @version    $Id$
  */
 
-require_once 'Haste_Creole.class.php';
+require_once 'Haste_Creole.php';
 
 /**
  *  Delphinus DB Class
@@ -18,7 +18,7 @@ require_once 'Haste_Creole.class.php';
  *  @access     public
  *  @package    Ethna
  */
-class Delphinus_DB extends Ethna_Creole
+class Delphinus_DB extends Haste_Creole
 {
     
     //{{{ getRssFromId()

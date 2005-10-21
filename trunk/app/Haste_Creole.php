@@ -41,7 +41,7 @@ class Haste_Creole extends Ethna_DB
      *  @param  string  $dsn                                DSN
      *  @param  bool    $persistent                         持続接続設定
      */
-    function Ethna_Creole(&$controller, $dsn, $persistent)
+    function Haste_Creole(&$controller, $dsn, $persistent)
     {
         $this->dsn = $dsn;
     }
