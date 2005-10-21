@@ -1,11 +1,4 @@
 {include file="header.tpl"}
-<div id="sidebar">
-<ul>
-{foreach from=$app.rss_list item=item}
-<li><a href="{$base_url}/detail/{$item.id}">{$item.name|stripslashes}</a></li>
-{/foreach}
-</ul>
-</div>
 <div class="section">
 {if count($errors)}
  <ul>
