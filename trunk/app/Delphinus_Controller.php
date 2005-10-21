@@ -21,7 +21,8 @@ include_once('Ethna/Ethna.php');
 require_once 'Ethna_AuthActionClass.php';
 include_once('Delphinus_Error.php');
 require_once 'Delphinus_DB.class.php';
-require_once 'Sample_SmartyPlugin.php';
+require_once 'Haste_SmartyPlugins.php';
+require_once 'Haste_ActionForm.php';
 
 /**
  *  Delphinusアプリケーションのコントローラ定義
@@ -126,7 +127,7 @@ class Delphinus_Controller extends Ethna_Controller
         'config'        => 'Ethna_Config',
         'db'            => 'Delphinus_DB',
         'error'         => 'Ethna_ActionError',
-        'form'          => 'Ethna_ActionForm',
+        'form'          => 'Haste_ActionForm',
         'i18n'          => 'Ethna_I18N',
         'logger'        => 'Ethna_Logger',
         'session'       => 'Ethna_Session',
@@ -186,9 +187,9 @@ class Delphinus_Controller extends Ethna_Controller
          *
          *  'smarty_function_foo_bar',
          */
-         'smarty_function_form_name',
-         'smarty_function_form_input',
-         'smarty_function_rss',
+         array('HasteSmartyPlugins', 'form_name'),
+         array('HasteSmartyPlugins', 'form_input'),
+         array('HasteSmartyPlugins', 'rss'),
                  
     );
 
@@ -269,18 +270,9 @@ class Delphinus_Controller extends Ethna_Controller
      */
     function _getActionName_Form()
     {
-        global $argv;
         
-        if ( $result = $this->getCLI() ) {
-        
-            $action_name = $argv[1];
-        
-        } else {
-        
-            $arr = explode('/', $_SERVER['PATH_INFO']);
-            $action_name = $arr[1];
-        
-        }
+        $arr = explode('/', $_SERVER['PATH_INFO']);
+        $action_name = $arr[1];
         
         return $action_name;
     
@@ -333,6 +325,83 @@ class Delphinus_Controller extends Ethna_Controller
         }
 
         return $template;
+    }
+
+    /**
+     *  テンプレートエンジン取得する(現在はsmartyのみ対応)
+     *
+     *  @access public
+     *  @return object  Smarty  テンプレートエンジンオブジェクト
+     */
+    function &getTemplateEngine()
+    {
+        $smarty =& new Smarty();
+        $smarty->template_dir = $this->getTemplatedir();
+        $smarty->compile_dir = $this->getDirectory('template_c');
+        $smarty->compile_id = md5($smarty->template_dir);
+
+        // 一応がんばってみる
+        if (@is_dir($smarty->compile_dir) == false) {
+            mkdir($smarty->compile_dir, 0755);
+        }
+        $smarty->plugins_dir = $this->getDirectory('plugins');
+
+        // default modifiers
+        $smarty->register_modifier('number_format', 'smarty_modifier_number_format');
+        $smarty->register_modifier('strftime', 'smarty_modifier_strftime');
+        $smarty->register_modifier('count', 'smarty_modifier_count');
+        $smarty->register_modifier('join', 'smarty_modifier_join');
+        $smarty->register_modifier('filter', 'smarty_modifier_filter');
+        $smarty->register_modifier('unique', 'smarty_modifier_unique');
+        $smarty->register_modifier('wordwrap_i18n', 'smarty_modifier_wordwrap_i18n');
+        $smarty->register_modifier('truncate_i18n', 'smarty_modifier_truncate_i18n');
+        $smarty->register_modifier('i18n', 'smarty_modifier_i18n');
+        $smarty->register_modifier('checkbox', 'smarty_modifier_checkbox');
+        $smarty->register_modifier('select', 'smarty_modifier_select');
+        $smarty->register_modifier('form_value', 'smarty_modifier_form_value');
+
+        // user defined modifiers
+        foreach ($this->smarty_modifier_plugin as $modifier) {
+            $name = str_replace('smarty_modifier_', '', $modifier);
+            $smarty->register_modifier($name, $modifier);
+        }
+
+        // default functions
+        $smarty->register_function('is_error', 'smarty_function_is_error');
+        $smarty->register_function('message', 'smarty_function_message');
+        $smarty->register_function('uniqid', 'smarty_function_uniqid');
+        $smarty->register_function('select', 'smarty_function_select');
+        $smarty->register_function('checkbox_list', 'smarty_function_checkbox_list');
+
+        // user defined functions
+        foreach ($this->smarty_function_plugin as $function) {
+            
+            if ( !is_array($function) ) {
+                $name = str_replace('smarty_function_', '', $function);
+                $smarty->register_function($name, $function);
+            } else {
+                $smarty->register_function($function[1], $function);
+            }
+        }
+
+        // user defined prefilters
+        foreach ($this->smarty_prefilter_plugin as $prefilter) {
+            $smarty->register_prefilter($prefilter);
+        }
+
+        // user defined postfilters
+        foreach ($this->smarty_postfilter_plugin as $postfilter) {
+            $smarty->register_postfilter($postfilter);
+        }
+
+        // user defined outputfilters
+        foreach ($this->smarty_outputfilter_plugin as $outputfilter) {
+            $smarty->register_outputfilter($outputfilter);
+        }
+
+        $this->_setDefaultTemplateEngine($smarty);
+
+        return $smarty;
     }
 
 }

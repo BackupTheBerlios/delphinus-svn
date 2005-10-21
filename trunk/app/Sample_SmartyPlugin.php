@@ -3,18 +3,22 @@
 /**
  *  Sample_SmartyPlugin.php
  *
+ *  @author     halt <halt.hde@gmail.com>
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @package    Sample
  *  @version    $Id: Sample_SmartyPlugin.php,v 1.1 2005/01/23 13:46:58 masaki-f Exp $
  */
 
-// {{{ smarty_function_form_name
+class HasteSmartyPlugins
+{
+
+// {{{ form_name
 /**
  *  smarty function:フォーム表示名生成
  *
  *  @param  string  $name   フォーム項目名
  */
-function smarty_function_form_name($params, &$smarty)
+function form_name($params, &$smarty)
 {
     extract($params);
 
@@ -53,7 +57,7 @@ function smarty_function_form_name($params, &$smarty)
 }
 // }}}
 
-// {{{ smarty_function_form_input
+// {{{ form_input
 /**
  *  smarty function:フォームタグ生成
  *
@@ -66,7 +70,7 @@ function smarty_function_form_name($params, &$smarty)
  *
  *  @param  string  $name   フォーム項目名
  */
-function smarty_function_form_input($params, &$smarty)
+function form_input($params, &$smarty)
 {
     $c =& Ethna_Controller::getInstance();
 
@@ -138,6 +142,25 @@ function smarty_function_form_input($params, &$smarty)
         }
         break;
 
+    case FORM_TYPE_LIVESEARCH:
+    
+        $input = sprintf('<input type="text" autocomplete="off" class="live_search" id="%s" name="%s" value="%s"', $name, $name, htmlspecialchars($af->get($name)));
+        if ($attr) {
+            $input .= " $attr";
+        }
+        if (isset($def['max']) && $def['max']) {
+            $input .= sprintf(' maxlength="%d"', $def['max']);
+        }
+        
+        $input .= " />\n";
+        $input .= "<div class=\"auto_complete\" id=\"{$name}_list\"></div>\n";
+        $input .= "<script type=\"text/javascript\">\n";
+        $input .= "var auto = new Ajax.Autocompleter('{$name}','{$name}_list','{$def['receiver']}/{$name}',{});\n";
+        $input .= "auto.select_entry = select_entry;\n";
+        $input .= "</script>\n";
+ 
+        break;
+        
     case FORM_TYPE_TEXT:
         // fall thru
     
@@ -157,14 +180,14 @@ function smarty_function_form_input($params, &$smarty)
 }
 // }}}
 
-//{{{ smarty_function_rss
+//{{{ rss
 /**
- * smarty_function_rss
+ * rss
  *
  * @access public
  * @author halt <halt.hde@gmail.com>
  */
-function smarty_function_rss($params, $smarty)
+function rss($params, $smarty)
 {
         $url = $params['url'];
         $ret[] = '<ul class="plugin_rss">';
@@ -192,4 +215,7 @@ function smarty_function_rss($params, $smarty)
  
 }
 //}}}
+
+}
+
 ?>
