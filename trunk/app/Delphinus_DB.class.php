@@ -102,6 +102,32 @@ class Delphinus_DB extends Haste_Creole
     }
     //}}}
 
+    //{{{ deleteFeed()
+    function deleteFeed($id)
+    {
+        $query = "DELETE FROM rss_list WHERE id = {$id}";
+        try {
+            $this->db->executeQuery($query);
+        } catch(Exception $e) {
+            var_dump($e);
+        }
+
+        $this->deleteEntriesFromRssId($id);
+    }
+    //}}}
+
+    //{{{ deleteCommentsFromRssId()
+    function deleteCommentsFromEntryId($id)
+    {
+        $query = "DELETE FROM comments WHERE entry_id = {$id}";
+        try {
+            $this->db->executeQuery($query);
+        } catch(Exception $e) {
+            var_dump($e);
+        }
+    }
+    //}}}
+
     //{{{ getRecentEntries()
     function getRecentEntries()
     {
