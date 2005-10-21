@@ -18,7 +18,7 @@ require_once 'creole/Creole.php';
  *  @author     halt <halt.hde@gmail.com>
  *  @access     public
  */
-class Ethna_Creole extends Ethna_DB
+class Haste_Creole extends Ethna_DB
 {
     /**#@+
      *  @access private

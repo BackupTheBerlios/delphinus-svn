@@ -7,7 +7,7 @@
  *  @version    $Id$
  */
 
-require_once 'Ethna_Creole.class.php';
+require_once 'Haste_Creole.class.php';
 
 /**
  *  Delphinus DB Class
