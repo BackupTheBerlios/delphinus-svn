@@ -49,7 +49,7 @@ class Delphinus_Form_Regist extends Ethna_ActionForm
         ),
         
         'url' => array(
-            'name' => 'URL',
+            'name' => 'RSS',
             'required' => true,
             'custom' => 'checkURL',
             'form_type' => FORM_TYPE_TEXT,
