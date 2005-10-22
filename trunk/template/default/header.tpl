@@ -11,7 +11,7 @@
 <h1>{$title}</h1>
 <div id="topmenu">
 <a href="{$base_url}">Home</a>
-<a href="{$base_url}/regist">Add Feed</a>
+<a href="{$base_url}/admin">Admin</a>
 {if $session.name}
 <a href="{$base_url}/logout">Logout</a>
 {$session.name}
