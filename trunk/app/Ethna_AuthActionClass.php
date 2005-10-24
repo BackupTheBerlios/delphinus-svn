@@ -57,7 +57,7 @@ class Ethna_AuthActionClass extends Ethna_ActionClass
         
         $this->af->setApp('signout_url', $signout_url);
         
-        if ( !isset($_SESSION['name']) && !in_array($_SESSION['name'], $author) ) {
+        if ( !isset($_SESSION['name']) || !in_array($_SESSION['name'], $author) ) {
         
             if( $this->authTypeKey() ){
             
