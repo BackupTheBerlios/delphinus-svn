@@ -83,7 +83,8 @@ class Delphinus_Action_Admin extends Ethna_AuthActionClass
     {
         if ( isset($_SERVER['PATH_INFO']) ) {
             $query = explode('/', $_SERVER['PATH_INFO']);
-            return $query[2];
+            $param = isset($query[2]) ? false : $query[2];
+            return $param
         } else {
             return false;
         }    
