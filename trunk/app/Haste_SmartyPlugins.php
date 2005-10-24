@@ -14,9 +14,9 @@ class HasteSmartyPlugins
 
 // {{{ form_name
 /**
- *  smarty function:¥Õ¥©¡¼¥àÉ½¼¨Ì¾À¸À®
+ *  smarty function:ãƒ•ã‚©ãƒ¼ãƒ è¡¨ç¤ºåç”Ÿæˆ
  *
- *  @param  string  $name   ¥Õ¥©¡¼¥à¹àÌÜÌ¾
+ *  @param  string  $name   ãƒ•ã‚©ãƒ¼ãƒ é …ç›®å
  */
 function form_name($params, &$smarty)
 {
@@ -25,8 +25,8 @@ function form_name($params, &$smarty)
     $ctl =& Ethna_Controller::getInstance();
     $ae =& $ctl->getActionError();
 
-    // ¸½ºß¥¢¥¯¥Æ¥£¥Ö¤Ê¥¢¥¯¥·¥ç¥ó¥Õ¥©¡¼¥à°Ê³°¤Î¥Õ¥©¡¼¥àÄêµÁ¤ò
-    // ÍøÍÑ¤¹¤ë¾ì¹ç¤Ë¤ÏSmartyÊÑ¿ô¤òÃç²ğ¤µ¤»¤ë(¤¤¤Ş¤¤¤Á¤«¡©)
+    // ç¾åœ¨ã‚¢ã‚¯ãƒ†ã‚£ãƒ–ãªã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ä»¥å¤–ã®ãƒ•ã‚©ãƒ¼ãƒ å®šç¾©ã‚’
+    // åˆ©ç”¨ã™ã‚‹å ´åˆã«ã¯Smartyå¤‰æ•°ã‚’ä»²ä»‹ã•ã›ã‚‹(ã„ã¾ã„ã¡ã‹ï¼Ÿ)
     $app = $smarty->get_template_vars('app');
     if (isset($app['__def__']) && $app['__def__'] != null) {
         if (isset($app['__def__'][$name])) {
@@ -44,14 +44,14 @@ function form_name($params, &$smarty)
     }
 
     if ($ae->isError($name)) {
-        // ÆşÎÏ¥¨¥é¡¼¤Î¾ì¹ç¤ÎÉ½¼¨
+        // å…¥åŠ›ã‚¨ãƒ©ãƒ¼ã®å ´åˆã®è¡¨ç¤º
         print '<span class="error">' . $form_name . '</span>';
     } else {
-        // ÄÌ¾ï»ş¤ÎÉ½¼¨
+        // é€šå¸¸æ™‚ã®è¡¨ç¤º
         print $form_name;
     }
     if (isset($def['required']) && $def['required'] == true) {
-        // É¬¿Ü»ş¤ÎÉ½¼¨
+        // å¿…é ˆæ™‚ã®è¡¨ç¤º
         print '<span class="must">(*)</span>';
     }
 }
@@ -59,16 +59,16 @@ function form_name($params, &$smarty)
 
 // {{{ form_input
 /**
- *  smarty function:¥Õ¥©¡¼¥à¥¿¥°À¸À®
+ *  smarty function:ãƒ•ã‚©ãƒ¼ãƒ ã‚¿ã‚°ç”Ÿæˆ
  *
- *  ·ë¹½Å¬Åö¤Ç¤¹(¤©¤£
+ *  çµæ§‹é©å½“ã§ã™(ã‰ãƒ
  *
  *  sample:
  *  <code>
  *  {form_input name="mailaddress" attr="..."}
  *  </code>
  *
- *  @param  string  $name   ¥Õ¥©¡¼¥à¹àÌÜÌ¾
+ *  @param  string  $name   ãƒ•ã‚©ãƒ¼ãƒ é …ç›®å
  */
 function form_input($params, &$smarty)
 {
@@ -180,41 +180,67 @@ function form_input($params, &$smarty)
 }
 // }}}
 
-//{{{ rss
-/**
- * rss
- *
- * @access public
- * @author halt <halt.hde@gmail.com>
- */
-function rss($params, $smarty)
-{
+    //{{{ rss
+    /**
+     * rss
+     *
+     * @access public
+     * @author halt <halt.hde@gmail.com>
+     */
+    function rss($params, $smarty)
+    {
+
+        require_once "Cache/Lite.php";
+        $Controller =& Ethna_Controller::getInstance();
+        $dir_cache = $Controller->getDirectory('tmp');
+        $options = array(
+            'cacheDir' => $dir_cache,
+            'lifeTime' => 3600
+        );
+        $CacheLite = new Cache_Lite($options);
+        
         $url = $params['url'];
-        $ret[] = '<ul class="plugin_rss">';
-        $xml = simplexml_load_file($url);
-        foreach($xml->item as $item){
-            /**
-             * NamespaceÉÕ¤­¤Î»ÒÍ×ÁÇ¤ò¼èÆÀ
-             * ¤³¤Î¾ì¹ç¡¢<dc:date>Í×ÁÇ¤¬ÂĞ¾İ
-             */
-            $dc = $item->children('http://purl.org/dc/elements/1.1/');
+        
+        if ( $data = $CacheLite->get($url)) {
+            print($data);
+        } else {
             
-            $date = isset($dc->date) ? '&nbsp;(' . date('Y-m-d H:i', strtotime($dc->date)) . ')' : '';
-            $link = $item->link;
-            $title = mb_convert_encoding($item->title, 'UTF-8', 'auto');
-            $line = '<li>';
-            //$line.= "<a href=\"{$link}\">{$title}</a>" . $date;
-            $line.= "<a href=\"{$link}\">{$title}</a>";
-            $line.= '</li>';
+            $ret[] = '<ul class="plugin_rss">';
+            $xml = @simplexml_load_file($url);
+            
+            if ( $xml == false) {
+                print("<ul>\n");
+                print("<li>RSSã‚’å–å¾—ã§ãã¾ã›ã‚“ã€‚</li>\n");
+                print("</ul>\n");
+                return false;
+            }
+            
+            foreach($xml->item as $item){
+            
+                /**
+                 * Namespaceä»˜ãã®å­è¦ç´ ã‚’å–å¾—
+                 * ã“ã®å ´åˆã€<dc:date>è¦ç´ ãŒå¯¾è±¡
+                 */
+                $dc = $item->children('http://purl.org/dc/elements/1.1/');
+            
+                $date = isset($dc->date) ? '&nbsp;(' . date('Y-m-d H:i', strtotime($dc->date)) . ')' : '';
+                $link = $item->link;
+                $title = mb_convert_encoding($item->title, 'UTF-8', 'auto');
+                $line = '<li>';
+                $line.= "<a href=\"{$link}\">{$title}</a>";
+                $line.= '</li>';
 
-            $ret[] = $line;
+                $ret[] = $line;
+            }
+
+            $ret[] = '</ul>';
+            $data = join("\n", $ret);
+            $CacheLite->save($data);
+            print($data);
         }
-
-        $ret[] = '</ul>';
-        print(join("\n", $ret));
  
-}
-//}}}
+    }
+    //}}}
 
 }
 
