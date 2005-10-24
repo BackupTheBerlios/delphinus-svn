@@ -277,7 +277,7 @@ class Delphinus_Controller extends Ethna_Controller
             $arr = explode('/', $_SERVER['PATH_INFO']);
             $action_name = $arr[1];
         } else {
-            $action_name = 'index';
+            $action_name = false;
         }
 
         return $action_name;
