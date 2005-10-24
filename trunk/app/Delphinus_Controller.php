@@ -273,9 +273,13 @@ class Delphinus_Controller extends Ethna_Controller
     function _getActionName_Form()
     {
         
-        $arr = explode('/', $_SERVER['PATH_INFO']);
-        $action_name = $arr[1];
-        
+        if ( isset($_SERVER['PATH_INFO']) ) {
+            $arr = explode('/', $_SERVER['PATH_INFO']);
+            $action_name = $arr[1];
+        } else {
+            $action_name = 'index';
+        }
+
         return $action_name;
     
     }
