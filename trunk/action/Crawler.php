@@ -71,7 +71,21 @@ class Delphinus_Action_Crawler extends Ethna_ActionClass
      */
     function perform()
     {
-        require_once 'magpierss/rss_fetch.inc';
+        $this->crawlRSS();
+        $Controller = $this->backend->getController();
+        $path_bin = $Controller->getDirectory('bin');
+        exec("php {$path_bin}/rss_rebuild.php");
+        return null;
+    }
+
+    /**
+     * crawlRSS
+     *
+     * @access protected
+     */
+    function crawlRSS()
+    {
+         require_once 'magpierss/rss_fetch.inc';
         
         $DB = $this->backend->getDB();
         $rss_list = $DB->getRssList();
@@ -94,9 +108,10 @@ class Delphinus_Action_Crawler extends Ethna_ActionClass
                 }
             }
         }
- 
-        return null;
+    
+        return true;
     }
+    
 
 }
 ?>

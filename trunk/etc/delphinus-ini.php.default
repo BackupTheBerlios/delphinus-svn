@@ -6,13 +6,20 @@
  */
 $config = array(
     'dsn' => 'sqlite://dummy:dummy@localhost//home/user/delphinus.db',
-    'title' => 'PHP Planet',
-    'theme' => 'phpugjp',
-    'debug' => false,
-    'author' => array('typekey_username'),
-    'typekey_token' => '',
+    'title' => 'Delphinus - PHP Planet Planet',
+    'description' => 'add site description',
     'copyright' => 'halt',
 
+    'base_url' => 'http://www.example.com/index.php',
+    'rss_path' => '/var/www/html/planet.xml',
+    'theme' => 'phpugjp',
+    'debug' => false,
+
+    //using typekey account by Administration   
+    'author' => array('typekey_username'),
+    'typekey_token' => '',
+
+    //setting log config
     'log_facility'  => 'echo',
     'log_level' => 'warning',
     'log_option' => 'pid,function,pos',
