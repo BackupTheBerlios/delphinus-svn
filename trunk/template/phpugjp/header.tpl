@@ -4,6 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="shortcut icon" href="{$base_url}/../theme/phpugjp/images/favicon.ico" />
     <link rel="stylesheet" type="text/css" media="screen, tv, projection" href="{$base_url}/../theme/phpugjp/phpugjp.css" />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://planet.php.gr.jp/rss.xml" />
         <title>{$title}</title>
     </head>
     <body>
