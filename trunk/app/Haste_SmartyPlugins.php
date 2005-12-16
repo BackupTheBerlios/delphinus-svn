@@ -1,11 +1,11 @@
 <?php
 // vim: foldmethod=marker
 /**
- *  Sample_SmartyPlugin.php
+ *  Haste_SmartyPlugins.php
  *
  *  @author     halt <halt.hde@gmail.com>
  *  @author     Masaki Fujimoto <fujimoto@php.net>
- *  @package    Sample
+ *  @package    Haste
  *  @version    $Id: Sample_SmartyPlugin.php,v 1.1 2005/01/23 13:46:58 masaki-f Exp $
  */
 
