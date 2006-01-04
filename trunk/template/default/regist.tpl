@@ -15,9 +15,10 @@
 </ul>
 {/if}
 <form method="post">
-{form_name name="site_name"}:{form_input name="site_name"}<br>
+{form_name name="site_name"}:{form_input name="name"}<br>
 {form_name name="author"}:{form_input name="author"}<br>
-{form_name name="url"}:<input type="text" name="url"><input type="submit">
+{form_name name="url"}:{form_input name="url"}
+{form_input name="submit"}
 </form>
 </div>
 {include file=footer.tpl}
