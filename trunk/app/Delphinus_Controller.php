@@ -189,9 +189,9 @@ class Delphinus_Controller extends Ethna_Controller
          *
          *  'smarty_function_foo_bar',
          */
-         array('HasteSmartyPlugins', 'form_name'),
-         array('HasteSmartyPlugins', 'form_input'),
-         array('HasteSmartyPlugins', 'rss'),
+         array('Haste_SmartyPlugins', 'form_name'),
+         array('Haste_SmartyPlugins', 'form_input'),
+         array('Haste_SmartyPlugins', 'rss'),
                  
     );
 

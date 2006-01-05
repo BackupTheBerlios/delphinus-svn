@@ -1,8 +1,9 @@
 <?php
 // vim: foldmethod=marker
 /**
- *  Ethna_DB.php
+ *  Haste_Creole.php
  *
+ *  @package    Haste
  *  @author     halt <halt.hde@gmail.com>
  *  @version    $Id$
  */

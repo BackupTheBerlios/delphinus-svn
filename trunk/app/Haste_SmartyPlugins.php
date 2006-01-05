@@ -9,7 +9,7 @@
  *  @version    $Id: Sample_SmartyPlugin.php,v 1.1 2005/01/23 13:46:58 masaki-f Exp $
  */
 
-class HasteSmartyPlugins
+class Haste_SmartyPlugins
 {
 
 // {{{ form_name
@@ -89,6 +89,10 @@ function form_input($params, &$smarty)
 
     if (isset($def['form_type']) == false) {
         $def['form_type'] = FORM_TYPE_TEXT;
+    }
+
+    if (isset($default)) {
+        $af->set($name, $default);
     }
 
     switch ($def['form_type']) {
@@ -189,12 +193,14 @@ function form_input($params, &$smarty)
      */
     function rss($params, $smarty)
     {
-
         require_once "Cache/Lite.php";
+
+        $encoding_from = 'UTF-8';
+        $encoding_to = 'euc-jp';
         $Controller =& Ethna_Controller::getInstance();
         $dir_cache = $Controller->getDirectory('tmp');
         $options = array(
-            'cacheDir' => $dir_cache,
+            'cacheDir' => $dir_cache . '/',
             'lifeTime' => 3600
         );
         $CacheLite = new Cache_Lite($options);
@@ -209,9 +215,11 @@ function form_input($params, &$smarty)
             $xml = @simplexml_load_file($url);
             
             if ( $xml == false) {
-                print("<ul>\n");
-                print("<li>RSSを取得できません。</li>\n");
-                print("</ul>\n");
+                $buf = "<ul>\n";
+                $buf = "<li>RSSを取得できません。</li>\n";
+                $buf = "</ul>\n";
+                $buf = mb_convert_encoding($buf, $encoding_to, $encoding_from);
+                print($buf);
                 return false;
             }
             
@@ -235,6 +243,7 @@ function form_input($params, &$smarty)
 
             $ret[] = '</ul>';
             $data = join("\n", $ret);
+            $data = mb_convert_encoding($data, $encoding_to, $encoding_from);
             $CacheLite->save($data);
             print($data);
         }
