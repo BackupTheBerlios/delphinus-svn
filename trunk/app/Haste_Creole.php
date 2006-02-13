@@ -16,6 +16,7 @@ require_once 'creole/Creole.php';
  *  EthnaのフレームワークでDBオブジェクトを扱うための抽象クラス
  *  (のつもり...あぁすばらしきPHP 4)
  *
+ *  @package    Haste
  *  @author     halt <halt.hde@gmail.com>
  *  @access     public
  */

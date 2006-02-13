@@ -9,6 +9,13 @@
  *  @version    $Id: Sample_SmartyPlugin.php,v 1.1 2005/01/23 13:46:58 masaki-f Exp $
  */
 
+/**
+ * Haste_SmartyPlugins
+ *
+ * @package Haste
+ * @author halt <halt.hde@gmail.com>
+ * @access public
+ */
 class Haste_SmartyPlugins
 {
 
@@ -232,7 +239,7 @@ function form_input($params, &$smarty)
                 $dc = $item->children('http://purl.org/dc/elements/1.1/');
             
                 $date = isset($dc->date) ? '&nbsp;(' . date('Y-m-d H:i', strtotime($dc->date)) . ')' : '';
-                $link = $item->link;
+                $link = str_replace('&', '&amp;', $item->link);
                 $title = mb_convert_encoding($item->title, 'UTF-8', 'auto');
                 $line = '<li>';
                 $line.= "<a href=\"{$link}\">{$title}</a>";

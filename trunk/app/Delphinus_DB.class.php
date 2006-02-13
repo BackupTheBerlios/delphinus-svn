@@ -3,6 +3,7 @@
 /**
  *  Delphinus_DB.class.php
  *
+ *  @package    Delphinus
  *  @author     halt <halt.hde@gmail.com>
  *  @version    $Id$
  */
@@ -16,7 +17,7 @@ require_once 'Haste_Creole.php';
  *
  *  @author     halt <halt.hde@gmail.com>
  *  @access     public
- *  @package    Ethna
+ *  @package    Delphinus
  */
 class Delphinus_DB extends Haste_Creole
 {
