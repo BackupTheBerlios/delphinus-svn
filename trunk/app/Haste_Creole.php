@@ -4,7 +4,7 @@
  *  Haste_Creole.php
  *
  *  @package    Haste
- *  @author     halt <halt.hde@gmail.com>
+ *  @author     halt feits <halt.feits@gmail.com>
  *  @version    $Id$
  */
 
@@ -17,7 +17,7 @@ require_once 'creole/Creole.php';
  *  (のつもり...あぁすばらしきPHP 4)
  *
  *  @package    Haste
- *  @author     halt <halt.hde@gmail.com>
+ *  @author     halt feits <halt.feits@gmail.com>
  *  @access     public
  */
 class Haste_Creole extends Ethna_DB

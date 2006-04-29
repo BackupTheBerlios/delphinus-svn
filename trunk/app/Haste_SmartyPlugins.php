@@ -3,18 +3,22 @@
 /**
  *  Haste_SmartyPlugins.php
  *
- *  @author     halt <halt.hde@gmail.com>
+ *  @author     halt feits <halt.feits@gmail.com>
  *  @author     Masaki Fujimoto <fujimoto@php.net>
  *  @package    Haste
  *  @version    $Id: Sample_SmartyPlugin.php,v 1.1 2005/01/23 13:46:58 masaki-f Exp $
  */
 
+if (!defined('FORM_TYPE_LIVESEARCH')) {
+    define('FORM_TYPE_LIVESEARCH', '101');
+} 
+
 /**
- * Haste_SmartyPlugins
+ *  Haste_SmartyPlugins
  *
- * @package Haste
- * @author halt <halt.hde@gmail.com>
- * @access public
+ *  @package Haste
+ *  @author     halt feits <halt.feits@gmail.com>
+ *  @access public
  */
 class Haste_SmartyPlugins
 {
@@ -98,6 +102,7 @@ function form_input($params, &$smarty)
         $def['form_type'] = FORM_TYPE_TEXT;
     }
 
+    //set default value
     if (isset($default)) {
         $af->set($name, $default);
     }
@@ -106,7 +111,7 @@ function form_input($params, &$smarty)
     
     case FORM_TYPE_FILE:
         $input = sprintf('<input type="file" name="%s"', $name);
-        if ($attr) {
+        if (isset($attr)) {
             $input .= " $attr";
         }
         $input .= ">";
@@ -114,7 +119,7 @@ function form_input($params, &$smarty)
     
     case FORM_TYPE_TEXTAREA:
         $input = sprintf('<textarea name="%s"', $name);
-        if ($attr) {
+        if (isset($attr)) {
             $input .= " $attr";
         }
         $input .= sprintf('>%s</textarea>', htmlspecialchars($af->get($name)));
@@ -122,7 +127,7 @@ function form_input($params, &$smarty)
     
     case FORM_TYPE_PASSWORD:
         $input = sprintf('<input type="password" name="%s" value="%s"', $name, htmlspecialchars($af->get($name)));
-        if ($attr) {
+        if (isset($attr)) {
             $input .= " $attr";
         }
         if (isset($def['max']) && $def['max']) {
@@ -135,7 +140,7 @@ function form_input($params, &$smarty)
 
         $input = sprintf('<input type="checkbox" name="%s" value="%s"', $name, htmlspecialchars($af->get($name)));
 
-        if ($attr) {
+        if (isset($attr)) {
             $input .= " $attr";
         }
         if (isset($def['max']) && $def['max']) {
@@ -156,7 +161,7 @@ function form_input($params, &$smarty)
     case FORM_TYPE_LIVESEARCH:
     
         $input = sprintf('<input type="text" autocomplete="off" class="live_search" id="%s" name="%s" value="%s"', $name, $name, htmlspecialchars($af->get($name)));
-        if ($attr) {
+        if (isset($attr)) {
             $input .= " $attr";
         }
         if (isset($def['max']) && $def['max']) {
@@ -177,7 +182,7 @@ function form_input($params, &$smarty)
     
     default:
         $input = sprintf('<input type="text" name="%s" value="%s"', $name, htmlspecialchars($af->get($name)));
-        if ($attr) {
+        if (isset($attr)) {
             $input .= " $attr";
         }
         if (isset($def['max']) && $def['max']) {
@@ -202,8 +207,18 @@ function form_input($params, &$smarty)
     {
         require_once "Cache/Lite.php";
 
-        $encoding_from = 'UTF-8';
-        $encoding_to = 'euc-jp';
+        if (isset($params['encoding_from'])) {
+            $encoding_from = $params['encoding_from'];
+        } else {
+            $encoding_from = 'UTF-8';
+        }
+        
+        if (isset($params['encoding_to'])) {
+            $encoding_to = $params['encoding_to'];
+        } else {
+            $encoding_to = 'euc-jp';
+        }
+
         $Controller =& Ethna_Controller::getInstance();
         $dir_cache = $Controller->getDirectory('tmp');
         $options = array(

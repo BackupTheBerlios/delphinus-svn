@@ -6,8 +6,6 @@
 <li><a href="{$base_url}/detail/{$item.id}">{$item.name|stripslashes}</a></li>
 {/foreach}
 </ul>
-<h2 class="sitename">はてなブックマーク - タグ「php」を含む注目エントリー</h2>
-{rss url="http://b.hatena.ne.jp/t/php?mode=rss&sort=hot"}
 <h2 class="sitename">Powered</h2>
 <p><a href="http://www.php.net"><img src="{$base_url}/../res/php5-power-micro.png" alt="PHP5 powered" /></a></p>
 <p><a href="http://pear.php.net"><img src="{$base_url}/../res/pear_powered.png" alt="pear powered" /></a></p>
