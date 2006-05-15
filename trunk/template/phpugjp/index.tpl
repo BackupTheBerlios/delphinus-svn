@@ -7,9 +7,9 @@
         {/foreach}
         </ul>
    <h2 class="sitename">はてなブックマーク - タグ「php」を含む注目エントリー</h2>
-{rss url="http://b.hatena.ne.jp/t/php?mode=rss&sort=hot"}
+{rss encoding_to="UTF-8" url="http://b.hatena.ne.jp/t/php?mode=rss&sort=hot"}
    <h2 class="sitename">del.icio.us - タグ「php」を含む注目エントリー</h2>
-{rss url="http://del.icio.us/rss/tag/php"}
+{rss encoding_to="UTF-8" url="http://del.icio.us/rss/tag/php"}
 <h2 class="sitename">Powered</h2>
     <p><a href="http://www.php.net"><img src="{$base_url}/../res/php5-power-micro.png" alt="PHP5 powered" /></a></p>
     <p><a href="http://pear.php.net"><img src="{$base_url}/../res/pear_powered.png" alt="pear powered" /></a></p>
