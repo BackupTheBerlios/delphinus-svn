@@ -88,6 +88,8 @@ class Delphinus_Controller extends Ethna_Controller
      */
     var $directory = array(
         'action'        => 'action',
+        'action_cli'    => 'action_cli',
+        'action_xmlrpc' => 'action_xmlrpc',
         'etc'           => 'etc',
         'filter'        => 'app/filter',
         'locale'        => 'locale',

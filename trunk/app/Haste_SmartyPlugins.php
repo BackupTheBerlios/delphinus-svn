@@ -208,15 +208,15 @@ function form_input($params, &$smarty)
         require_once "Cache/Lite.php";
 
         if (isset($params['encoding_from'])) {
-            $encoding_from = $params['encoding_from'];
+            $encoding_from = strtoupper($params['encoding_from']);
         } else {
             $encoding_from = 'UTF-8';
         }
         
         if (isset($params['encoding_to'])) {
-            $encoding_to = $params['encoding_to'];
+            $encoding_to = strtoupper($params['encoding_to']);
         } else {
-            $encoding_to = 'euc-jp';
+            $encoding_to = 'EUC-JP';
         }
 
         $Controller =& Ethna_Controller::getInstance();
@@ -238,9 +238,12 @@ function form_input($params, &$smarty)
             
             if ( $xml == false) {
                 $buf = "<ul>\n";
-                $buf = "<li>RSSを取得できません。</li>\n";
-                $buf = "</ul>\n";
-                $buf = mb_convert_encoding($buf, $encoding_to, $encoding_from);
+                $buf .= "<li>RSSを取得できません。</li>\n";
+                $buf .= "</ul>\n";
+
+                if ($encoding_to != $encoding_from) {
+                    $buf = mb_convert_encoding($buf, $encoding_to, $encoding_from);
+                }
                 print($buf);
                 return false;
             }
@@ -265,7 +268,9 @@ function form_input($params, &$smarty)
 
             $ret[] = '</ul>';
             $data = join("\n", $ret);
-            $data = mb_convert_encoding($data, $encoding_to, $encoding_from);
+            if ($encoding_to != $encoding_from) {
+                $data = mb_convert_encoding($data, $encoding_to, $encoding_from);
+            }
             $CacheLite->save($data);
             print($data);
         }

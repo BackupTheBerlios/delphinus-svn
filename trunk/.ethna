@@ -1,0 +1,3 @@
+[project]
+controller_file = "app/Delphinus_Controller.php"
+controller_class = "Delphinus_Controller"
