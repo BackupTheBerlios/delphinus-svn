@@ -287,34 +287,6 @@ class Delphinus_Controller extends Ethna_Controller
     }
 
     /**
-     * getDefaultActionPath
-     *
-     * @access public
-     */
-    function getDefaultActionPath($action_name, $fallback = true)
-    {
-        
-        $default_path = preg_replace('/_(.)/e', "strtoupper('\$1')", ucfirst($action_name)) . '.' . $this->getExt('php');
-        $action_dir = $this->getActiondir();
-
-        if ($this->getClientType() == CLIENT_TYPE_SOAP) {
-            $r = 'SOAP/' . $default_path;
-        } else if ($this->getClientType() == CLIENT_TYPE_MOBILE_AU) {
-            $r = 'MobileAU/' . $default_path;
-        } else {
-            $r = $default_path;
-        }
-
-        if ($fallback && file_exists($action_dir . $r) == false && $r != $default_path) {
-            $this->logger->log(LOG_DEBUG, 'client_type specific file not found [%s] -> try defualt', $r);
-            $r = $default_path;
-        }
-
-        $this->logger->log(LOG_DEBUG, "default action path [%s]", $r);
-        return $r;
-    }
-    
-    /**
      * getTemplateDir
      *
      */
@@ -333,83 +305,6 @@ class Delphinus_Controller extends Ethna_Controller
         }
 
         return $template;
-    }
-
-    /**
-     *  テンプレートエンジン取得する(現在はsmartyのみ対応)
-     *
-     *  @access public
-     *  @return object  Smarty  テンプレートエンジンオブジェクト
-     */
-    function &getTemplateEngine()
-    {
-        $smarty =& new Smarty();
-        $smarty->template_dir = $this->getTemplatedir();
-        $smarty->compile_dir = $this->getDirectory('template_c');
-        $smarty->compile_id = md5($smarty->template_dir);
-
-        // 一応がんばってみる
-        if (@is_dir($smarty->compile_dir) == false) {
-            mkdir($smarty->compile_dir, 0755);
-        }
-        $smarty->plugins_dir = $this->getDirectory('plugins');
-
-        // default modifiers
-        $smarty->register_modifier('number_format', 'smarty_modifier_number_format');
-        $smarty->register_modifier('strftime', 'smarty_modifier_strftime');
-        $smarty->register_modifier('count', 'smarty_modifier_count');
-        $smarty->register_modifier('join', 'smarty_modifier_join');
-        $smarty->register_modifier('filter', 'smarty_modifier_filter');
-        $smarty->register_modifier('unique', 'smarty_modifier_unique');
-        $smarty->register_modifier('wordwrap_i18n', 'smarty_modifier_wordwrap_i18n');
-        $smarty->register_modifier('truncate_i18n', 'smarty_modifier_truncate_i18n');
-        $smarty->register_modifier('i18n', 'smarty_modifier_i18n');
-        $smarty->register_modifier('checkbox', 'smarty_modifier_checkbox');
-        $smarty->register_modifier('select', 'smarty_modifier_select');
-        $smarty->register_modifier('form_value', 'smarty_modifier_form_value');
-
-        // user defined modifiers
-        foreach ($this->smarty_modifier_plugin as $modifier) {
-            $name = str_replace('smarty_modifier_', '', $modifier);
-            $smarty->register_modifier($name, $modifier);
-        }
-
-        // default functions
-        $smarty->register_function('is_error', 'smarty_function_is_error');
-        $smarty->register_function('message', 'smarty_function_message');
-        $smarty->register_function('uniqid', 'smarty_function_uniqid');
-        $smarty->register_function('select', 'smarty_function_select');
-        $smarty->register_function('checkbox_list', 'smarty_function_checkbox_list');
-
-        // user defined functions
-        foreach ($this->smarty_function_plugin as $function) {
-            
-            if ( !is_array($function) ) {
-                $name = str_replace('smarty_function_', '', $function);
-                $smarty->register_function($name, $function);
-            } else {
-                $smarty->register_function($function[1], $function);
-            }
-        }
-
-        // user defined prefilters
-        foreach ($this->smarty_prefilter_plugin as $prefilter) {
-            $smarty->register_prefilter($prefilter);
-        }
-
-        // user defined postfilters
-        foreach ($this->smarty_postfilter_plugin as $postfilter) {
-            $smarty->register_postfilter($postfilter);
-        }
-
-        // user defined outputfilters
-        foreach ($this->smarty_outputfilter_plugin as $outputfilter) {
-            $smarty->register_outputfilter($outputfilter);
-        }
-
-        $this->_setDefaultTemplateEngine($smarty);
-
-        return $smarty;
     }
 
 }
