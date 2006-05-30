@@ -87,6 +87,7 @@ class Delphinus_Action_Index extends Ethna_ActionClass
      */
     function prepare()
     {
+        $this->af->setApp('config', $this->config->config);
         return null;
     }
 
