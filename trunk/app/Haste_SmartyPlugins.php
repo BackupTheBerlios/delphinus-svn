@@ -181,6 +181,30 @@ function form_input($params, &$smarty)
         // fall thru
     
     default:
+
+        //support multi value(alpha
+        if ( is_array($af->get($name)) ) {
+            
+            $input = "";
+            $values = $af->get($name);
+            foreach ( $values as $value ) {
+                
+                $input .= sprintf('<input type="text" name="%s[]" value="%s"', $name, htmlspecialchars($value, ENT_QUOTES));
+                
+                if (isset($attr)) {
+                    $input .= " $attr";
+                }
+                if (isset($def['max']) && $def['max']) {
+                    $input .= sprintf(' maxlength="%d"', $def['max']);
+                }
+                $input .= " /><br />";
+
+            }
+
+            break;
+ 
+        }
+
         $input = sprintf('<input type="text" name="%s" value="%s"', $name, htmlspecialchars($af->get($name)));
         if (isset($attr)) {
             $input .= " $attr";
