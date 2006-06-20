@@ -4,22 +4,22 @@
  *  Delphinus_DB.class.php
  *
  *  @package    Delphinus
- *  @author     halt <halt.hde@gmail.com>
+ *  @author     halt <halt.feits@gmail.com>
  *  @version    $Id$
  */
 
-require_once 'Haste_Creole.php';
+require_once 'Ethna/class/DB/Ethna_DB_Creole.php';
 
 /**
  *  Delphinus DB Class
  *
  *  Delphinus内でのオリジナルな処理を記述したクラス
  *
- *  @author     halt <halt.hde@gmail.com>
+ *  @author     halt <halt.feits@gmail.com>
  *  @access     public
  *  @package    Delphinus
  */
-class Delphinus_DB extends Haste_Creole
+class Delphinus_DB extends Ethna_DB_Creole
 {
     
     //{{{ getRssFromId()
