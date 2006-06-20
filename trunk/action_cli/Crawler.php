@@ -14,7 +14,7 @@
  *  @access     public
  *  @package    Delphinus
  */
-class Delphinus_Form_Crawler extends Ethna_ActionForm
+class Delphinus_CLI_Form_Crawler extends Ethna_ActionForm
 {
     /**
      *  @access private
@@ -44,7 +44,7 @@ class Delphinus_Form_Crawler extends Ethna_ActionForm
  *  @access     public
  *  @package    Delphinus
  */
-class Delphinus_Action_Crawler extends Ethna_ActionClass
+class Delphinus_CLI_Action_Crawler extends Ethna_ActionClass
 {
     /**
      *  Crawlerアクションの前処理
@@ -71,6 +71,7 @@ class Delphinus_Action_Crawler extends Ethna_ActionClass
      */
     function perform()
     {
+        print("Start Crawl Feeds<br>\n");
         $this->crawlRSS();
         $Controller = $this->backend->getController();
         $path_bin = $Controller->getDirectory('bin');
@@ -91,6 +92,8 @@ class Delphinus_Action_Crawler extends Ethna_ActionClass
         $rss_list = $DB->getRssList();
         
         foreach( $rss_list as $rss){
+
+            print("Fetch:{$rss['url']}<br>\n");
             $Rss = fetch_rss($rss['url']);
             //var_dump($Rss->channel);
             //var_dump('feed_type:' . $Rss->feed_type);
@@ -98,8 +101,11 @@ class Delphinus_Action_Crawler extends Ethna_ActionClass
             //$DB->deleteEntriesFromRssId($rss['id']);
             foreach( $Rss->items as $item){
 
-                $item['date'] = date('Y-m-d H:i:s', $item['date_timestamp']);   
-                if ( empty($item['description']) ) {
+                if (isset($item['date_timestamp'])) {
+                    $item['date'] = date('Y-m-d H:i:s', $item['date_timestamp']);   
+                }
+
+                if ( !isset($item['description']) || empty($item['description'])) {
                     $item['description'] = $item['atom_content'];
                 }
                 //var_dump($item);
