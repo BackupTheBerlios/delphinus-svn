@@ -146,17 +146,19 @@ class Delphinus_Action_Regist extends Ethna_AuthActionClass
  
     }
 
+    /**
+     * getParameter
+     */
     function getParameter()
     {
-         $query = explode('/', $_SERVER['PATH_INFO']);
-        if ( is_numeric($query[2]) ) {
+        $query = explode('/', $_SERVER['PATH_INFO']);
+        if ( isset($query[2]) && is_numeric($query[2]) ) {
             $id = $query[2];
         } else {
             $id = false;
         }
 
         return $id;
-    
     }
 
 }
