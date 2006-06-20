@@ -23,6 +23,7 @@ include_once('Delphinus_Error.php');
 require_once 'Delphinus_DB.class.php';
 require_once 'Haste_SmartyPlugins.php';
 require_once 'Haste_ActionForm.php';
+require_once 'Aero_Util.php';
 
 /**
  *  Delphinusアプリケーションのコントローラ定義

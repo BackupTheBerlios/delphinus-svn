@@ -117,6 +117,20 @@ class Delphinus_DB extends Haste_Creole
     }
     //}}}
 
+    //{{{ deleteEntry
+    /**
+     * deleteEntry
+     *
+     * @param string $url entry url
+     */
+    function deleteEntry($url)
+    {
+        $query = "DELETE FROM entries WHERE link = ?";
+        $Statement = $this->db->prepareStatement($query);
+        $Statement->executeUpdate(array($url));
+    }
+    //}}}
+
     //{{{ deleteCommentsFromRssId()
     function deleteCommentsFromEntryId($id)
     {
@@ -155,6 +169,7 @@ class Delphinus_DB extends Haste_Creole
     /**
      * setEntry
      *
+     * @param int $rss_id
      */
     function setEntry($rss_id, $item)
     {
@@ -182,7 +197,6 @@ class Delphinus_DB extends Haste_Creole
         }catch(Exception $e){
         
             var_dump($e);
-            //var_dump($vars);
         
         }
 

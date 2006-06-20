@@ -79,14 +79,16 @@ class Delphinus_CLI_Action_Crawler extends Ethna_ActionClass
         return null;
     }
 
+    //{{{ crawlRSS
     /**
      * crawlRSS
      *
      * @access protected
+     * @param void
      */
     function crawlRSS()
     {
-         require_once 'magpierss/rss_fetch.inc';
+        require_once 'magpierss/rss_fetch.inc';
         
         $DB = $this->backend->getDB();
         $rss_list = $DB->getRssList();
@@ -95,10 +97,7 @@ class Delphinus_CLI_Action_Crawler extends Ethna_ActionClass
 
             print("Fetch:{$rss['url']}<br>\n");
             $Rss = fetch_rss($rss['url']);
-            //var_dump($Rss->channel);
-            //var_dump('feed_type:' . $Rss->feed_type);
-            //var_dump($Rss->feed_version);
-            //$DB->deleteEntriesFromRssId($rss['id']);
+            
             foreach( $Rss->items as $item){
 
                 if (isset($item['date_timestamp'])) {
@@ -108,8 +107,12 @@ class Delphinus_CLI_Action_Crawler extends Ethna_ActionClass
                 if ( !isset($item['description']) || empty($item['description'])) {
                     $item['description'] = $item['atom_content'];
                 }
-                //var_dump($item);
+
                 if ( !$DB->existsEntryFromLink($item['link']) ) {
+                    $DB->setEntry($rss['id'], $item);
+                } else {
+                    print('Delete Entry' . "\n");
+                    $DB->deleteEntry($item['link']);
                     $DB->setEntry($rss['id'], $item);
                 }
             }
@@ -117,7 +120,7 @@ class Delphinus_CLI_Action_Crawler extends Ethna_ActionClass
     
         return true;
     }
-    
+    //}}}
 
 }
 ?>
