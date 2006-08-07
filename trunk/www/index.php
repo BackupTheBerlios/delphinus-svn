@@ -3,7 +3,7 @@
  * Web Entry Point
  *
  * @package Delphinus
- * @author halt <halt.hde@gmail.com>
+ * @author halt feits <halt.feits@gmail.com>
  * @access public
  */
 include_once( dirname( dirname(__FILE__) ). '/app/Delphinus_Controller.php');
