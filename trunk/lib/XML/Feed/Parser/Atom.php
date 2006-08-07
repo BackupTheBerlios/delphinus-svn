@@ -298,7 +298,7 @@ class XML_Feed_Parser_Atom extends XML_Feed_Parser_Type
         $categories = $this->model->getElementsByTagName('category');
         if ($categories->length <= $offset) {
             $category = $categories->item($offset);
-            if ($category->hasAttribute($attribute)) {
+            if (method_exists("hasAttribute", $category) && $category->hasAttribute($attribute)) {
                 return $category->getAttribute($attribute);
             }
         }
