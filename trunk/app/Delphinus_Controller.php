@@ -11,10 +11,13 @@
 define('BASE', dirname(dirname(__FILE__)));
 
 // include_pathの設定(アプリケーションディレクトリを追加)
-$app = BASE . "/app";
-$lib = BASE . "/lib";
-ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR . implode(PATH_SEPARATOR, array($app, $lib)));
+$include_path = array(
+    'app' => BASE . "/app",
+    'lib' => BASE . "/lib",
+    'include_path' => ini_get('include_path'),
+);
 
+ini_set('include_path', implode(PATH_SEPARATOR, $include_path));
 
 /** アプリケーションライブラリのインクルード */
 include_once('Ethna/Ethna.php');
