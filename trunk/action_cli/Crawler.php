@@ -88,26 +88,42 @@ class Delphinus_CLI_Action_Crawler extends Ethna_ActionClass
      */
     function crawlRSS()
     {
-        require_once 'magpierss/rss_fetch.inc';
+        require_once 'XML/Feed/Parser.php';
         
         $DB = $this->backend->getDB();
         $rss_list = $DB->getRssList();
+        $allow_category = $this->config->get('allow_category');
         
         foreach( $rss_list as $rss){
 
             print("Fetch:{$rss['url']}<br>\n");
-            $Rss = fetch_rss($rss['url']);
-            
-            foreach( $Rss->items as $item){
+        
+            try {
+                $feed = new XML_Feed_Parser(file_get_contents($rss['url']));
+            } catch(XML_Feed_Parser_Exception $e) {
+                die('Feed invalid: ' . $e->getMessage());
+            }
+             
+            foreach($feed as $entry){
 
-                if (isset($item['date_timestamp'])) {
-                    $item['date'] = date('Y-m-d H:i:s', $item['date_timestamp']);   
+                if (is_string($allow_category) && ($entry->category !== false) && (strtoupper($entry->category) != $allow_category)) {
+                    print("Parge:{$entry->category}\n");
+                    continue;
                 }
 
-                if ( !isset($item['description']) || empty($item['description'])) {
-                    $item['description'] = $item['atom_content'];
+                $item['title'] = $entry->title;
+                if ($entry->date !== false) {
+                    $item['date'] = date('Y-m-d H:i:s', $entry->date);
+                } else {
+                    $item['date'] = date('Y-m-d H:i:s', $entry->pubdate);
                 }
-
+                $item['link'] = $entry->link;
+                if ($entry->description !== false) {
+                    $item['description'] = $entry->description;
+                } else {
+                    $item['description'] = $entry->content;
+                }
+                
                 if ( !$DB->existsEntryFromLink($item['link']) ) {
                     $DB->setEntry($rss['id'], $item);
                 } else {
