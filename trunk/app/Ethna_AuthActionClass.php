@@ -67,7 +67,9 @@ class Ethna_AuthActionClass extends Ethna_ActionClass
         $this->signout_url = $this->TypeKey->urlSignOut($base_url);
         
         $this->af->setApp('signout_url', $this->signout_url);
-        if ( !isset($_SESSION['name']) || is_null($_SESSION['name']) || !in_array($_SESSION['name'], $author) ) {
+
+        if ( is_null($this->session->get('name')) ||
+             !in_array($this->session->get('name'), $author) ) {
         
             if( $this->authTypeKey($_GET) === TRUE ){
             //if( TRUE ){
@@ -83,9 +85,9 @@ class Ethna_AuthActionClass extends Ethna_ActionClass
                 //}
                 
                 //success
-                //$this->session->start();
-                session_start();
-                $_SESSION['name'] = $_GET['name'];
+                $this->session->start();
+                $this->session->set('name', $_GET['name']);
+                
                 return null;
             
             } else {
