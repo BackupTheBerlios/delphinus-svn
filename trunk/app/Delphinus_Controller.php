@@ -154,7 +154,6 @@ class Delphinus_Controller extends Ethna_Controller
          *
          *  'Delphinus_Filter_ExecutionTime',
          */
-         'Delphinus_Filter_PreferenceCheck',
     );
 
     /**

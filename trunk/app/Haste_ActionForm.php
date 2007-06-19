@@ -41,6 +41,13 @@ class Haste_ActionForm extends Ethna_ActionForm
         'receiver'
         );
 
+    var $form_template = array(
+        'submit' => array(
+            'form_type' => FORM_TYPE_SUBMIT,
+            'type' => VAR_TYPE_STRING,
+        )
+    );
+
 }
 // }}}
 ?>
